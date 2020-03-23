@@ -12,5 +12,8 @@
     "lib": [
       "esnext"
     ]
-  }
+  },
+  "exclude": [
+    "src/**/*.d.ts"
+  ]
 }
