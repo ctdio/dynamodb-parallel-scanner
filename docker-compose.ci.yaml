@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  test:
+    image: node:12.16-alpine3.11
+    depends_on:
+      - dynamodb
+    environment:
+      - DYNAMODB_ENDPOINT=http://dynamodb:8000
+    volumes:
+      - ./:/opt/work
+    working_dir: /opt/work
+    command: sh -c "NODE_OPTIONS=\"--max-old-space-size=4096\" npx jest -i --ci"

@@ -7,11 +7,13 @@
     "posttest": "npm run format",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,md}\"",
+    "docker:up": "docker-compose -f docker-compose.yaml -f docker-compose.local.yaml up",
+    "docker:down": "docker-compose down",
     "pretest": "npm run lint && tsc --noEmit",
-    "test": "jest",
+    "test": "npm run docker:up -- -d && jest",
     "test:jest": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:ci": "npm run pretest && bash ./run-tests-ci.sh"
   },
   "keywords": [
     "dynamodb",
@@ -20,8 +22,15 @@
   ],
   "author": "Charlie Duong",
   "license": "MIT",
+  "dependencies": {
+    "@lifeomic/attempt": "^3.0.0",
+    "p-queue": "^6.3.0"
+  },
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.9.3",
+    "@types/uuid": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "aws-sdk": "^2.643.0",
@@ -31,9 +40,13 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
+    "lodash": "^4.17.15",
+    "p-map": "^4.0.0",
     "prettier": "^2.0.1",
     "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3"
+    "type-fest": "^0.12.0",
+    "typescript": "^3.8.3",
+    "uuid": "^7.0.2"
   },
   "prettier": {
     "singleQuote": true
@@ -48,6 +61,7 @@
     "*.{js,ts,md}": "prettier --write"
   },
   "jest": {
+    "collectCoverage": true,
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/lib/"
@@ -55,7 +69,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/__tests__/.*(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
