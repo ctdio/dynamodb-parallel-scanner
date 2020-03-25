@@ -15,7 +15,7 @@
     "test:jest": "jest",
     "test:watch": "jest --watch",
     "test:ci": "npm run pretest && bash ./run-tests-ci.sh",
-    "prepublish": "tsc --declaration"
+    "prepare": "tsc --declaration"
   },
   "keywords": [
     "dynamodb",
