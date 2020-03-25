@@ -1,1 +1,16 @@
-__tests__/
+**/__tests__/
+coverage
+*.json
+*.yaml
+
+# ignore the .ts files
+*.ts
+
+# include the .d.ts files
+!*.d.ts
+
+# ignore dot files
+.*
+
+# ignore bash scripts
+*.sh
